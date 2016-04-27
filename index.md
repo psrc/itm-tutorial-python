@@ -29,13 +29,9 @@ working with ecological data in Python.
 
 * [Short Introduction to Python](./00-short-introduction-to-Python)
 * [Starting With Data](./01-starting-with-data)
-* [Index Slice Subset](./02-index-slice-subset)
 * [Data Types and Format](./03-data-types-and-format) 
 * [Merging Data](./04-merging-data)
-* [Data Analysis Automation: Loops and Functions](./05-loops-and-functions)
-* [Plotting with Matplotlib](./06-plotting-with-matplotlib)
-* [Putting It All Together](./07-putting-it-all-together)
-* [Accessing SQL using Python](./08-working-with-sql)
+* [Moving to Scripts](./09-moving-to-scripts)
 
 
 Data for this lesson is from the Portal Project Teaching Database - [available on FigShare](https://figshare.com/articles/Portal_Project_Teaching_Database/1314459).

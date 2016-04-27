@@ -4,23 +4,11 @@ root: .
 title: Starting With Data
 ---
 
-## Working With Pandas DataFrames in Python
-
-
-### Learning Objectives
-* Explain what a library is, and what libraries are used for.
-* Load a Python/Pandas library.
-* Read tabular data from a file into Python using Pandas using `read_csv`.
-* Learn about the Pandas DataFrame object.
-* Learn about data slicing and indexing.
-* Perform mathematical operations on numeric data.
-* Create simple plots of data.
-
 ## Presentation of the survey data
 
-For this lesson, we will be using travel survey data.
+For this lesson, we will be using some odd housing data. Imagine we get a dataset in every month that summarizes some basic facts of new households that moved to the region. We get basic information like the date they moved here, their district ID, city code, whether or not they rent/own (tenure), and household income. We have to continusouly analyze this data every month and create reports, so we want to script some of the analyses we use and streamline it. 
 
-We are studying the households surveyed in the Puget Sound region. The dataset is stored as a `csv` file: each row holds information for a
+The mian dataset is stored as a `csv` file - surveys.csv: each row holds information for a
 single household, and the columns represent:
 
 | Column           		| 		Description                        |
@@ -31,7 +19,7 @@ single household, and the columns represent:
 | year   	 	| survey year              |
 | district         	  	| district location of household            |
 | city    	    	| code for city location of household          |
-| tenure         	  | indication of whether household is owner or tenureer of property     
+| tenure         	  | indication of whether household is owner or renter of property     
 | income  	  | household income, in hundreds of dollars |
 
 
@@ -41,12 +29,27 @@ Data is stored in the [course GitHub repository](https://github.com/psrc/python-
 
 ---
 
+### Learning Objectives
+* Explain what a library is, and what libraries are used for.
+* Load a Python/Pandas library.
+* Read tabular data from a file into Python using Pandas using `read_csv`.
+* Learn about the Pandas DataFrame object.
+* Perform mathematical operations on numeric data.
+* Create simple plots of data.
+
 
 ## About Libraries
 A library in Python contains a set of tools (called functions) that perform
-tasks on our data. Importing a library is like getting a piece of lab equipment
-out of a storage locker and setting it up on the bench for use in a project.
-Once a library is set up, it can be used or called to perform many tasks.
+tasks on our data. Once a library is set up, it can be used or called to perform many tasks.
+
+Imagine a library as a kitchen appliance. If you were making a loaf of bread, you could 
+go to the agricultural co-op and buy some wheat germ, use a rock to crush the grains, 
+culture your own yeast, mill your own sugar, or you just could just buy some pre-packaged
+ingredients from the store and toss it into a bread-maker. It's time saving and it's build to serve a purpose.
+I need bread, so I bring out the bread maker to the counter. 
+
+For our purposes, we need to analyze data so we bring a statistical library onto our notebook counter. 
+We'll be using pandas exclusively in this course. 
 
 ## Pandas in Python
 One of the best options for working with tabular data in Python is to use the
@@ -54,6 +57,8 @@ One of the best options for working with tabular data in Python is to use the
 Pandas library provides data structures, produces high quality plots with
 [matplotlib](http://matplotlib.org/) and integrates nicely with other libraries
 that use [NumPy](http://www.numpy.org/) (which is another Python library) arrays.
+
+### Importing Pandas
 
 Python doesn't load all of the libraries available to it by default. We have to
 add an `import` statement to our code in order to use library functions. To import
@@ -75,32 +80,16 @@ time we call a Pandas function.
 
 ## Lesson Overview
 
-For this lesson we will be using the Portal Teaching data.
-
-We are studying the income and tenure of new households to the region. The data sets are stored in .csv (comma separated values) format. Within
+Let's pretend we are studying the income and tenure of new households to the region. The data sets are stored in .csv (comma separated values) format. Within
 the `.csv` files, each row holds information for a single household, and the
 columns represent: record_id, month, day, year, district, city, tenure, income.
 
-The first few rows of our first file look like this:
-
-```
-record_id,month,day,year,type,city,tenure,income
-1,7,16,1977,2,NA,O,
-2,7,16,1977,3,NA,O,
-3,7,16,1977,2,DO,R,
-4,7,16,1977,7,DO,O,
-5,7,16,1977,3,DO,O,
-6,7,16,1977,1,PR,O,
-7,7,16,1977,2,PE,R,
-8,7,16,1977,1,DO,O,
-9,7,16,1977,1,DO,R,
-```
 
 ### We want to:
 
 1. Load that data into memory in Python.
 2. Calculate the average income of all households sampled, by district.
-3. Plot the average income by district and perhaps by type too.
+3. Plot the average income by district and perhaps by city too.
 
 We can automate the process above using Python. It's efficient to spend time
 building the code to perform these tasks because once it's built, we can use it
@@ -189,7 +178,7 @@ surveys_df
 
 which prints contents like above
 
-## Manipulating Our Household Survey Data
+## Manipulating Our Survey Data
 
 Now we can start manipulating our data. First, let's check the data type of the
 data stored in `surveys_df` using the `type` method. The `type` method and
@@ -365,7 +354,7 @@ summary stats.
 
 # Challenge
 
-1. How many recorded households are tenureers `R` and how many owners `O`
+1. How many recorded households are renters `R` and how many owners `O`
 2. What happens when you group by two columns using the following syntax and
     then grab mean values:
 	- `sorted2 = surveys_df.groupby(['district','tenure'])`

@@ -18,11 +18,10 @@ Python's main advantages:
 * Supports multiple programming paradigms
 * Very large community
 
-## Interpreter
+## Where is this "Python"??
+Open a console/terminal/shell window and type "python". This starts a live interactive session with Python.
 
-Python is an interpreted language. As a consequence, we can use it in two ways:
-
-* Using interpreter as an "advanced calculator" in interactive mode:
+In the interactive mode we can basically use Python as a calculator and do some "live" interfacing. You can tell you're in the Python environment by the three angle brackets near the prompt. 
 
 ```python
 user:host:~$ python
@@ -34,19 +33,6 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> print("Hello World")
 Hello World
 ```
-
-* Executing programs/scripts saved as a text file, usually with `*.py` extension:
-
-```
-user:host:~$ python my_script.py
-Hello World
-```
-
-
-## Introduction to Python built-in data types
-
-### Strings, integers and floats
-
 The most basic data types in Python are strings, integers and floats:
 
 ```python
@@ -54,12 +40,6 @@ text = "Data Carpentry"
 number = 42
 pi_value = 3.1415
 ```
-
-Here we've assigned data to variables, namely `text`, `number` and `pi_value`,
-using the assignment operator `=`. The variable called `text` is a string which
-means it can contain letters and numbers. We could reassign the variable `text`
-to an integer too but - but be careful reassigning variables as this can get 
-confusing.
 
 To print out the value stored in a variable we can simply type the name of the
 variable into the interpreter:
@@ -69,199 +49,46 @@ variable into the interpreter:
 "Data Carpentry"
 ```
 
-but this only works in the interpreter. In scripts we must use the `print` function:
+The other way of using Python is by executing programs/scripts saved as a text file, with `*.py` extension. For instance, if we open our favorite text editor (could be notepad or vim or sublime) and write a simple line 'print "Hello World"', we can run that in the terminal. This is how a lot of scripts work. It's how we run our travel model at PSRC. Typing one command sparks off a whole chain of other scripts and tasks that takes a day or 2 to run.
 
-```python
-# Comments start with #
-# Next line will print out text
-print(text)
-"Data Carpentry"
+```
+python run_soundcast.py
 ```
 
-### Operators
-
-We can perform mathematical calculations in Python using the basic operators
- `+, -, /, *, %`:
-
-```python
->>> 2 + 2
-4
->>> 6 * 7
-42
->>> 2 ** 16 # power
-65536
->>> 3 % 2 # modulo
-1
+```
+user:host:~$ python my_script.py
+Hello World
 ```
 
-We can also use comparison and logic operators:
-`<, >, ==, !=, <=, >=` etc.
-`and, or, not`
+## iPython Notebooks
+How do we get to the point of running and building long scripts though? How do we test and build code, or just explore data? Python is good for all of these things - today we'll focus on just a quick way of reading in data and manipulating it - creating summaries, slicing and dicing, and making charts. These are the same things that might be done in Excel, but when its part of a script it can not only be repeated but be included in a chain of other analyses. One click and you're down (mostly).
 
-```python
->>> 3 > 4
-False
->>> True and True
-True
->>> True or False
-True
+Today we're going to use a tool called the iPython notebook, which is basically the same thing as the interpreter we already saw. It's an interactive session, but it's more flexible and user-friendly than the basic Python prompt. It allows you save your history of commands, back back and re-run old commands, and create graphs and charts as you work. It's one of the best tools for data analysis specifically. It's also a great way to build and test code snippets before moving them into larger scripts later. This is generally how I work - test things out in the notebook then move them to more formal design later. 
+
+Let's open up the iPython notebook. Open the shell and 'cd' to the place you saved the data. Type:
+
+```
+ipython notebook
+```
+What happened? As long sa you didn't get 'command not found' you should see a few lines of code appear on your console, and the last 2 saying:
+
+```
+The IPython notebook is running at: https: //localhost:8888/
+Use Control-C to stop this server and shut down all kernels
 ```
 
-## Sequential types: Lists and Tuples
+This console is acting as a local server and its running an interactive web-based Python console. It should have automatically opened up a new browser window or tab for you. If not, open your browser and type: localhost:8888 in the url bar. 
 
-### Lists
+The notebook shows the directory information of where you started it. You should see your data there. If not, see if you can navigate to it. Folders are clickable. Otherwise, just move your data to the notebook's working directory. You can see that in your console window in the 2nd line: 
 
-**Lists** are a common data structure to hold a sequence of
-elements. Each element can be accessed by an index:
-
-```python
->>> numbers = [1,2,3]
->>> numbers[0]
-1
+```
+Serving notebooks from local directory: C:\
 ```
 
-A `for` loop can be used to access the elements in a list or other Python data
-structure one at a time:
+We're just looking at a directory list now. Create a new python notebook by clicking "New" in the upper right corner. 
 
-```python
-for num in numbers:
-    print(num)
-1
-2
-3
-```
+Note we can execute lines of code just like before.
 
-**Indentation** is very important in Python. Note that the second line in the
-example above is indented. This is Python's way of marking a block of code. We will
-discuss this in more detail later.
+We can also change the name of the file in the top line. Go ahead and change the name now. You can click on the "jupyter" logo to go back to the home page and return by clicking on the notebook name, which is already running. We can run lines of code, make changes in the line and rerun them. 
 
-To add elements to the list, we can use the `append` method:
-
-```python
->>> numbers.append(4)
->>> print(numbers)
-[1,2,3,4]
-```
-
-Methods are a way to interact with an object - like a list. We can use or apply 
-a method to a variable or element using the dot `.`. To find out what methods are
- available, we can use the built-in `help` command:
-
-```python
-help(numbers)
-
-Help on list object:
-
-class list(object)
- |  list() -> new empty list
- |  list(iterable) -> new list initialized from iterable's items
- ...
-```
-
-We can also access a list of methods using `dir`. Some methods names are
-surrounded by double underscores. Those methods are called "special", and
-usually we access them in a different way. For example `__add__` method is
-responsible for the `+` operator.
-
-```python
-dir(numbers)
->>> dir(numbers)
-['__add__', '__class__', '__contains__', ...]
-```
-
-### Tuples
-
-A tuple is similar to a list in that it's a sequence of elements. However,
-tuples can not be changed once created (they are "immutable"). Tuples are
-created by placing comma-separated values inside parentheses `()`.
-
-```python
-# tuples use paratheses
-ATuple= (1,2,3)
-anotherTuple = ('blue','green','red')
-# notes lists uses square brackets
-AList = [1,2,3]
-```
-
-### Challenge
-1. What happens when you type `ATuple[2]=5` vs `AList[1]=5` ?
-2. Type `type(ATuple)` into python - what is the object type?
-
-
-## Dictionaries
-
-A **dictionary** is a container that holds pairs of objects - keys and values.
-
-```python
->>> translation = {"one" : 1, "two" : 2}
->>> translation["one"]
-1
-```
-Dictionaries work a lot like lists - except that you index them with *keys*. 
-You can think about a key as a name for or a unique identifier for a set of values
-in the dictionary. Keys can only have particular types - they have to be 
-"hashable". Strings and numeric types are acceptable, but lists aren't.
-
-```python
->>> rev = {1 : "one", 2 : "two"}
->>> rev[1]
-'one'
->>> bad = {[1,2,3] : 3}
-...
-TypeError: unhashable type: 'list'
-```
-
-To add an item to the dictionary we assign a value to a new key:
-
-```python
->>> rev = {1 : "one", 2 : "two"}
->>> rev[3] = "three"
->>> rev
-{1: 'one', 2: 'two', 3: 'three'}
-```
-
-Using `for` loops with dictionaries is a little more complicated. We can do this
-in two ways:
-
-```python
->>> for key, value in rev.items():
-...     print(key, "->", value)
-...
-1 -> one
-2 -> two
-3 -> three
-```
-
-or
-
-```python
->>> for key in rev.keys():
-...     print(key, "->", rev[key])
-...
-1 -> one
-2 -> two
-3 -> three
->>>
-```
-
-## Functions
-
-Defining part of a program in Python as a function is done using the `def`
-keyword. For example a function that takes two arguments and returns their sum
-can be defined as:
-
-```python
-def add_function(a, b):
-    result = a + b
-    return result
-
-z = add_function(20, 22)
-print(z)
-42
-```
-
-Key points here:
-
-* definition starts with `def`
-* function body is indented
-* `return` keyword precedes returned value
+Okay, now let's start loading in data and doing stuff!
