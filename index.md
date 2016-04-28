@@ -33,10 +33,7 @@ working with ecological data in Python.
 * [Merging Data](./04-merging-data)
 * [Moving to Scripts](./09-moving-to-scripts)
 
-
-Data for this lesson is from the Portal Project Teaching Database - [available on FigShare](https://figshare.com/articles/Portal_Project_Teaching_Database/1314459).
-
-The data files used in this lesson are surveys.csv [download link - https://ndownloader.figshare.com/files/2292172](https://ndownloader.figshare.com/files/2292172) and species.csv [download link - https://ndownloader.figshare.com/files/3299483](https://ndownloader.figshare.com/files/3299483).
+*Data* for this project can be downloaded from this repository at [http://psrc.github.io/itm-tutorial-python/data.zip] (https://figshare.com/articles/Portal_Project_Teaching_Database/1314459). 
 
 
 <p>
