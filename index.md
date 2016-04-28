@@ -33,7 +33,7 @@ working with ecological data in Python.
 * [Merging Data](./04-merging-data)
 * [Moving to Scripts](./09-moving-to-scripts)
 
-<strong>Data<.strong> for this project can be downloaded from this repository at [http://psrc.github.io/itm-tutorial-python/data.zip](http://psrc.github.io/itm-tutorial-python/data.zip). 
+**Data** for this project can be downloaded from this repository at [http://psrc.github.io/itm-tutorial-python/data.zip](http://psrc.github.io/itm-tutorial-python/data.zip). 
 
 
 <p>
