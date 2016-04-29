@@ -1,0 +1,16 @@
+Hi :)
+
+Welcome to Python for Travel Modeling. Two things:
+---------------------------------------------------------
+
+1.) Download data: http://psrc.github.io/itm-tutorial-python/data.zip
+
+Unzip contents to a folder called 'python-class' on your Desktop
+
+---------------------------------------------------------
+2.) Open shell/command prompt and type "ipython notebook"
+
+A few lines should execute and a new broswer page or tab should start. If you get 'command not found' or 'unrecognized command', raise your hand for help.
+
+If everything works, close the shell/prompt window and help a neighbor if possible.
+
