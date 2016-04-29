@@ -256,7 +256,7 @@ Let's get a list of all the cities. Did we collect all the data we expected to? 
 the unique values in the `city` column.
 
 ```python
-pd.unique(surveys_df.city)
+pd.unique(surveys_df['city'])
 ```
 
 which **returns**:
@@ -313,6 +313,9 @@ surveys_df['income'].max()
 
 ```
 
+
+# Groups in Pandas
+
 But if we want to summarize by one or more variables, for example tenure, we can
 use Pandas' `.groupby` method. Once we've created a groupby DataFrame, we
 can quickly calculate summary statistics by a group of our choice.
@@ -321,10 +324,6 @@ can quickly calculate summary statistics by a group of our choice.
 # Group data by tenure
 sorted = surveys_df.groupby('tenure')
 ```
-
-
-
-# Groups in Pandas
 
 We often want to calculate summary statistics grouped by subsets or attributes
 within fields of our data. For example, we might want to calculate the average
@@ -362,25 +361,8 @@ summary stats.
     then grab mean values:
 	- `sorted2 = surveys_df.groupby(['district','tenure'])`
 	- `sorted2.mean()`
-3. Summarize income values for each plot in your data. HINT: you can use the
-   following syntax to only create summary statistics for one column in your data
-   `byPlot['income'].describe()`
 
 
-Did you get #3 right? **A Snippet of the Output from challenge 3 looks like:**
-
-```
-	plot
-	1     count    1903.000000
-	      mean       51.822911
-	      std        38.176670
-	      min         4.000000
-	      25%        30.000000
-	      50%        44.000000
-	      75%        53.000000
-	      max       231.000000
-          ...
-```
 
 ## Quickly Creating Summary Counts in Pandas
 

@@ -1,13 +1,84 @@
----
+----
 layout: lesson
 root: .
 title: Data Types and Formats
 ---
 
+# Querying and Working with Missing Data
 
 
-# Missing Data and Querying
+## Querying Data
 
+Often we want a subset of our data using criteria. For example, we need to look at results for a specific range of years or for a given set of cities.
+
+To select data from year 2002
+```python
+surveys_df[surveys_df['year'] == 2002]
+```
+
+Which produces the following output:
+
+```python
+record_id  month  day  year  district city  tenure  hindfoot_length  income
+33320      33321      1   12  2002        1         DM    M     38      44 
+33321      33322      1   12  2002        1         DO    M     37      58
+33322      33323      1   12  2002        1         PB    M     28      45
+33323      33324      1   12  2002        1         AB  NaN    NaN     NaN
+33324      33325      1   12  2002        1         DO    M     35      29
+...
+35544      35545     12   31  2002       15         AH  NaN    NaN     NaN
+35545      35546     12   31  2002       15         AH  NaN    NaN     NaN
+35546      35547     12   31  2002       10         RM    F     15      14
+35547      35548     12   31  2002        7         DO    M     36      51
+35548      35549     12   31  2002        5        NaN  NaN    NaN     NaN
+
+[2229 rows x 9 columns]
+```
+
+Or we can select all rows that do not contain the year 2002.
+
+```python
+surveys_df[surveys_df.year != 2002]
+```
+
+We can define sets of criteria too:
+
+```python
+surveys_df[(surveys_df['year'] >= 1980) & (surveys_df['year'] <= 1985)]
+```
+
+# Python Syntax Cheat Sheet
+
+Use can use the syntax below when querying data from a DataFrame. Experiment
+with selecting various subsets of the "surveys" data.
+
+* Equals: `==`
+* Not equals: `!=`
+* Greater than, less than: `>` or `<`
+* Greater than or equal to `>=`
+* Less than or equal to `<=`
+
+
+## Challenge Activities
+
+1. Select a subset of rows in the `surveys_df` DataFrame that contain data from
+   the year 1999 and that contain income values less than or equal to 20000 How
+   many columns did you end up with? What did your neighbor get?
+2. You can use the `isin` command in python to query a DataFrame based upon a
+   list of values as follows:
+   `surveys_df[surveys_df['city'].isin([listGoesHere])]`. Use the `isin` function
+   to find all records that contain particular city in
+   the surveys DataFrame. How many records contain these values?
+3. Experiment with other queries. Create a query that finds all rows with a income value > or equal to 0.
+4. The `~` symbol in Python can be used to return the OPPOSITE of the selection that you specify in python. 
+It is equivalent to **is not in**. Write a query that selects all rows that are NOT equal to 'R' or 'O' in the surveys
+data.
+
+Answer: 
+
+```
+surveys_df[~surveys_df['tenure'].isin(['R','O'])]
+```
 
 ## Missing Data Values - NaN
 
@@ -74,96 +145,6 @@ impact the scientific conclusions made from the data.
 Python gives us all of the tools that we need to account for these issues. We
 just need to be cautious about how the decisions that we make impact scientific
 results.
-
-# Querying Data
-
-Often we want a subset of our data using criteria. For example, we need to look at results for a specific range of years or for a given set of cities.
-
-To select data from year 2002
-```python
-surveys_df[surveys_df['year'] == 2002]
-```
-
-Which produces the following output:
-
-```python
-record_id  month  day  year  district city  tenure  hindfoot_length  income
-33320      33321      1   12  2002        1         DM    M     38      44 
-33321      33322      1   12  2002        1         DO    M     37      58
-33322      33323      1   12  2002        1         PB    M     28      45
-33323      33324      1   12  2002        1         AB  NaN    NaN     NaN
-33324      33325      1   12  2002        1         DO    M     35      29
-...
-35544      35545     12   31  2002       15         AH  NaN    NaN     NaN
-35545      35546     12   31  2002       15         AH  NaN    NaN     NaN
-35546      35547     12   31  2002       10         RM    F     15      14
-35547      35548     12   31  2002        7         DO    M     36      51
-35548      35549     12   31  2002        5        NaN  NaN    NaN     NaN
-
-[2229 rows x 9 columns]
-```
-
-Or we can select all rows that do not contain the year 2002.
-
-```python
-surveys_df[surveys_df.year != 2002]
-```
-
-We can define sets of criteria too:
-
-```python
-surveys_df[(surveys_df['year'] >= 1980) & (surveys_df['year'] <= 1985)]
-```
-
-# Python Syntax Cheat Sheet
-
-Use can use the syntax below when querying data from a DataFrame. Experiment
-with selecting various subsets of the "surveys" data.
-
-* Equals: `==`
-* Not equals: `!=`
-* Greater than, less than: `>` or `<`
-* Greater than or equal to `>=`
-* Less than or equal to `<=`
-
-
-## Challenge Activities
-
-1. Select a subset of rows in the `surveys_df` DataFrame that contain data from
-   the year 1999 and that contain income values less than or equal to 20000 How
-   many columns did you end up with? What did your neighbor get?
-2. You can use the `isin` command in python to query a DataFrame based upon a
-   list of values as follows:
-   `surveys_df[surveys_df['city'].isin([listGoesHere])]`. Use the `isin` function
-   to find all plots that contain particular city in
-   the surveys DataFrame. How many records contain these values?
-3. Experiment with other queries. Create a query that finds all rows with a income value > or equal to 0.
-4. The `~` symbol in Python can be used to return the OPPOSITE of the selection that you specify in python. 
-It is equivalent to **is not in**. Write a query that selects all rows that are NOT equal to 'R' or 'O' in the surveys
-data.
-
-
-## SQL-style queries
-Some of you may be more familiar or comfortable with SQL-style queries.
-You can make the same queries as above, but using the "query" command.
-
-For example, select all records from 2002:
-
-```python
-surveys_df.query('year == 2002')
-```
-
-Note that the column index selection is a bit different; there are no brackets anymore and everything must be in a string. We're now passing a SQL query *string* to a dataframe and executing that query. This can be helpful for more complicated queries. In some situations it's better to use this method, while in others the column selection is clearer.
-
-
-
-
-# SQL Challenges
-
-
-1. Create a new DataFrame that contains only observations that are of tenure rent or own and where income values are less than 20000. 
-
-
 
 ## Recap
 
