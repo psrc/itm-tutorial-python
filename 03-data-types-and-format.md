@@ -1,4 +1,4 @@
----
+----
 layout: lesson
 root: .
 title: Data Types and Formats
@@ -6,74 +6,8 @@ title: Data Types and Formats
 
 
 
-# Missing Data and Querying
+# Querying and Working with Missing Data
 
-
-## Missing Data Values - NaN
-
-Dealing with missing data values is always a challenge. It's sometimes hard to
-know why values are missing - was it because of a data entry error? Or data that
-someone was unable to collect? Should the value be 0? We need to know how
-missing values are represented in the dataset in order to make good decisions.
-If we're lucky, we have some metadata that will tell us more about how null
-values were handled.
-
-For instance, like in household surveys, missing data values are
-often defined as -9999. Having a bunch of -9999 values in your data could really
-alter numeric calculations. Often in spreadsheets, cells are left empty where no
-data are available. Pandas will, by default, replace those missing values with
-NaN. However it is good practice to get in the habit of intentionally marking
-cells that have no data, with a no data value! That way there are no questions
-in the future when you (or someone else) explores your data.
-
-### Where Are the NaN's?
-
-Let's explore the NaN values in our data a bit further. Using the tools we
-learned in lesson 02, we can figure out how many rows contain NaN values for
-income. We can also create a new subset from our data that only contains rows
-with income values > 0 (ie select meaningful income values):
-
-```python
-len(surveys_df[pd.isnull(surveys_df.income)])
-# how many rows have income values?
-len(surveys_df[surveys_df.income> 0])
-```
-
-We can replace all NaN values with zeroes using the `.fillna()` method (after
-making a copy of the data so we don't lose our work):
-
-```python
-df1 = surveys_df.copy()
-# fill all NaN values with 0
-df1['income'] = df1['income'].fillna(0)
-```
-
-However NaN and 0 yield different analysis results. The mean value when NaN
-values are replaced with 0 is different from when NaN values are simply thrown
-out or ignored.
-
-```python
-df1['income'].mean()
-38.751976145601844
-```
-
-We can fill NaN values with any value that we chose. The code below fills all
-NaN values with a mean for all income values.
-
-```python
- df1['income'] = surveys_df['income'].fillna(surveys_df['income'].mean())
-```
-
-We could also chose to create a subset of our data, only keeping rows that do
-not contain NaN values.
-
-The point is to make conscious decisions about how to manage missing data. This
-is where we think about how our data will be used and how these values will
-impact the scientific conclusions made from the data.
-
-Python gives us all of the tools that we need to account for these issues. We
-just need to be cautious about how the decisions that we make impact scientific
-results.
 
 # Querying Data
 
@@ -143,27 +77,71 @@ It is equivalent to **is not in**. Write a query that selects all rows that are 
 data.
 
 
-## SQL-style queries
-Some of you may be more familiar or comfortable with SQL-style queries.
-You can make the same queries as above, but using the "query" command.
+## Missing Data Values - NaN
 
-For example, select all records from 2002:
+Dealing with missing data values is always a challenge. It's sometimes hard to
+know why values are missing - was it because of a data entry error? Or data that
+someone was unable to collect? Should the value be 0? We need to know how
+missing values are represented in the dataset in order to make good decisions.
+If we're lucky, we have some metadata that will tell us more about how null
+values were handled.
+
+For instance, like in household surveys, missing data values are
+often defined as -9999. Having a bunch of -9999 values in your data could really
+alter numeric calculations. Often in spreadsheets, cells are left empty where no
+data are available. Pandas will, by default, replace those missing values with
+NaN. However it is good practice to get in the habit of intentionally marking
+cells that have no data, with a no data value! That way there are no questions
+in the future when you (or someone else) explores your data.
+
+### Where Are the NaN's?
+
+Let's explore the NaN values in our data a bit further. Using the tools we
+learned in lesson 02, we can figure out how many rows contain NaN values for
+income. We can also create a new subset from our data that only contains rows
+with income values > 0 (ie select meaningful income values):
 
 ```python
-surveys_df.query('year == 2002')
+len(surveys_df[pd.isnull(surveys_df.income)])
+# how many rows have income values?
+len(surveys_df[surveys_df.income> 0])
 ```
 
-Note that the column index selection is a bit different; there are no brackets anymore and everything must be in a string. We're now passing a SQL query *string* to a dataframe and executing that query. This can be helpful for more complicated queries. In some situations it's better to use this method, while in others the column selection is clearer.
+We can replace all NaN values with zeroes using the `.fillna()` method (after
+making a copy of the data so we don't lose our work):
 
+```python
+df1 = surveys_df.copy()
+# fill all NaN values with 0
+df1['income'] = df1['income'].fillna(0)
+```
 
+However NaN and 0 yield different analysis results. The mean value when NaN
+values are replaced with 0 is different from when NaN values are simply thrown
+out or ignored.
 
+```python
+df1['income'].mean()
+38.751976145601844
+```
 
-# SQL Challenges
+We can fill NaN values with any value that we chose. The code below fills all
+NaN values with a mean for all income values.
 
+```python
+ df1['income'] = surveys_df['income'].fillna(surveys_df['income'].mean())
+```
 
-1. Create a new DataFrame that contains only observations that are of tenure rent or own and where income values are less than 20000. 
+We could also chose to create a subset of our data, only keeping rows that do
+not contain NaN values.
 
+The point is to make conscious decisions about how to manage missing data. This
+is where we think about how our data will be used and how these values will
+impact the scientific conclusions made from the data.
 
+Python gives us all of the tools that we need to account for these issues. We
+just need to be cautious about how the decisions that we make impact scientific
+results.
 
 ## Recap
 
