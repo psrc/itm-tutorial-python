@@ -3,7 +3,7 @@ Hi :)
 Welcome to Python for Travel Modeling. Two things:
 ---------------------------------------------------------
 
-1.) Download data: http://psrc.github.io/itm-tutorial-python/data.zip
+1.) Download data: http://psrc.github.io/itm-tutorial-python/python-class.zip
 
 Unzip contents to a folder called 'python-class' on your Desktop
 
