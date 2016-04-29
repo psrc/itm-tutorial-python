@@ -4,12 +4,10 @@ root: .
 title: Data Types and Formats
 ---
 
-
-
 # Querying and Working with Missing Data
 
 
-# Querying Data
+## Querying Data
 
 Often we want a subset of our data using criteria. For example, we need to look at results for a specific range of years or for a given set of cities.
 
