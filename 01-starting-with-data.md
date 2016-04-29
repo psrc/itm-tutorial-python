@@ -6,9 +6,9 @@ title: Starting With Data
 
 ## Presentation of the survey data
 
-For this lesson, we will be using some odd housing data. Imagine we get a dataset in every month that summarizes some basic facts of new households that moved to the region. We get basic information like the date they moved here, their district ID, city code, whether or not they rent/own (tenure), and household income. We have to continusouly analyze this data every month and create reports, so we want to script some of the analyses we use and streamline it. 
+For this lesson, we will be using housing data. Imagine we get a dataset in every month that summarizes some basic facts of new households that moved to the region. We get basic information like the date they moved here, their district ID, city code, whether or not they rent/own (tenure), and household income. We have to continusouly analyze this data every month and create reports, so we want to script some of the analyses we use and streamline it. 
 
-The mian dataset is stored as a `csv` file - surveys.csv: each row holds information for a
+The main dataset is stored as a `csv` file - surveys.csv: each row holds information for a
 single household, and the columns represent:
 
 | Column           		| 		Description                        |
@@ -106,7 +106,7 @@ We can use Pandas' `read_csv` function to pull the file directly into a
 
 ## So What's a DataFrame?
 
-A DataFrame is a 2-dimensional data structure that can store data of diffetenure
+A DataFrame is a 2-dimensional data structure that can store data of different
 types (including characters, integers, floating point values, factors and more)
 in columns. It is similar to a spreadsheet or an SQL table or the `data.frame` in
 R.
@@ -236,9 +236,7 @@ HINT: [More on tuples, here](https://docs.python.org/2/tutorial/datastructures.h
 
 We've read our data into Python. Next, let's perform some quick summary
 statistics to learn more about the data that we're working with. We might want
-to know how many animals were collected in each plot, or how many of each
-cities were caught. We can perform summary stats quickly using groups. But
-first we need to figure out what we want to group by.
+to know how many household samples were collected in each city, or average income over time.
 
 Let's begin by exploring our data:
 
@@ -254,7 +252,7 @@ array(['record_id', 'month', 'day', 'year', 'type', 'district', 'tenure',
        'income'], dtype=object)
 ```
 
-Let's get a list of all the cities. The `pd.unique` function tells us all of
+Let's get a list of all the cities. Did we collect all the data we expected to? The `pd.unique` function tells us all of
 the unique values in the `city` column.
 
 ```python
@@ -277,11 +275,15 @@ array(['NL', 'DM', 'PF', 'PE', 'DS', 'PP', 'SH', 'OT', 'DO', 'OX', 'SS',
    `districtNames`. How many unique districts are there in the data? How many unique
    cities are in the data?
 
-# Groups in Pandas
+## Summary Statistics
 
-We often want to calculate summary statistics grouped by subsets or attributes
-within fields of our data. For example, we might want to calculate the average
-income of all individuals per plot.
+The Pandas function `describe` will return descriptive stats including: mean,
+median, max, min, std and count for a particular column in the data. Pandas'
+`describe` function will only return summary values for columns containing
+numeric data.
+
+
+
 
 We can calculate basic statistics for all records in a single column using the
 syntax below:
@@ -308,9 +310,7 @@ We can also extract one specific metric if we wish:
 ```python
 surveys_df['income'].min()
 surveys_df['income'].max()
-surveys_df['income'].mean()
-surveys_df['income'].std()
-surveys_df['income'].count()
+
 ```
 
 But if we want to summarize by one or more variables, for example tenure, we can
@@ -322,10 +322,13 @@ can quickly calculate summary statistics by a group of our choice.
 sorted = surveys_df.groupby('tenure')
 ```
 
-The Pandas function `describe` will return descriptive stats including: mean,
-median, max, min, std and count for a particular column in the data. Pandas'
-`describe` function will only return summary values for columns containing
-numeric data.
+
+
+# Groups in Pandas
+
+We often want to calculate summary statistics grouped by subsets or attributes
+within fields of our data. For example, we might want to calculate the average
+income of all individuals per plot.
 
 ```python
 # summary statistics for all numeric columns by tenure
@@ -381,8 +384,7 @@ Did you get #3 right? **A Snippet of the Output from challenge 3 looks like:**
 
 ## Quickly Creating Summary Counts in Pandas
 
-Let's next create a list of unique cities in our data. We can do this in a few
-ways, but we'll use `groupby` combined with a `count()` method.
+Let's see how many records we collected from each city. Is there a sampling bias or are certain areas unincluded?
 
 
 ```python
@@ -398,19 +400,23 @@ surveys_df.groupby('city')['record_id'].count()['DO']
 
 ## Basic Math Functions
 
-If we wanted to, we could perform math on an entire column of our data. For
-example let's multiply all income values by 100 to convert into standard dollars. 
+For some reason our income data was in thousands of dollars. We can convert that to a new field if we want. 
 
-	# multiply all income values by 100
-	surveys_df['income']*100
+	# multiply all income values by 1000
+	surveys_df['income']*1000
 
+Note that we didn't actually save anything; we just made the calculation. To overwrite the existing data,
+```python
+surveys_df['income'] = surveys_df['income']*1000
+```
 
-## Another Challenge
+We can also just create a new column instead of erasing the existing data.
 
-1. What's another way to create a list of cities and associated `count` of the
-   records in the data? Hint: you can perform `count`, `min`, etc functions on
-   groupby DataFrames in the same way you can perform them on regular
-   DataFrames.
+```python
+surveys_df['income'] = surveys_df['income']*1000
+```
+If you mess up you can always restart the notebook and run all the cells again!
+
 
 
 # Quick & Easy Plotting Data Using Pandas
@@ -435,110 +441,5 @@ total_count.plot(kind='bar');
 
 # Challenge Activities
 
-1. Create a plot of average income across all cities per plot.
-2. Create a plot of total owners versus total feowners for the entire dataset.
-
-
-# Summary Plotting Challenge
-
-Create a stacked bar plot, with income on the Y axis, and the stacked variable
-being tenure. The plot should show total income by tenure for each plot. Some
-tips are below to help you solve this challenge:
-
-* [For more on Pandas plots, visit this link.](http://pandas.pydata.org/pandas-docs/dev/generated/pandas.core.groupby.DataFrameGroupBy.plot.html)
-* You can use the code that follows to create a stacked bar plot but the data to stack
-  need to be in individual columns.  Here's a simple example with some data where
-  'a', 'b', and 'c' are the groups, and 'one' and 'two' are the subgroups.
-
-```
-d = {'one' : pd.Series([1., 2., 3.], index=['a', 'b', 'c']),'two' : pd.Series([1., 2., 3., 4.], index=['a', 'b', 'c', 'd'])}
-pd.DataFrame(d)
-```
-
-shows the following data
-
-```
-       one  two
-   a    1    1
-   b    2    2
-   c    3    3
-   d  NaN    4
-```
-
-We can plot the above with
-
-```
-# plot stacked data so columns 'one' and 'two' are stacked
-my_df = pd.DataFrame(d)
-my_df.plot(kind='bar',stacked=True,title="The title of my graph")
-```
-
-![Stacked Bar Plot](img/stackedBar1.png)
-
-* You can use the `.unstack()` method to transform grouped data into columns
-for each plotting.  Try running `.unstack()` on some DataFrames above and see
-what it yields.
-
-Start by transforming the grouped data (by plot and tenure) into an unstacked layout, then create
-a stacked plot.
-
-
-## Solution to Summary Challenge
-
-First we group data by plot and by tenure, and then calculate a total for each plot.
-
-```python
-by_plot_tenure = surveys_df.groupby(['district','tenure'])
-plot_tenure_count = by_plot_tenure['income'].sum()
-```
-
-This calculates the sums of incomes for each tenure within each plot as a table
-
-```
-plot  tenure
-district  tenure
-1        R      38253
-         O      59979
-2        R      50144
-         O      57250
-3        R      27251
-         O      28253
-4        R      39796
-         O      49377
-<other plots removed for brevity>
-```
-
-Below we'll use `.unstack()` on our grouped data to figure out the total income that each tenure contributed to each plot.
-
-```python
-by_plot_tenure = surveys_df.groupby(['district','tenure'])
-plot_tenure_count = by_plot_tenure['income'].sum()
-plot_tenure_count.unstack()
-```
-
-The `unstack` function above will display the following output:
-
-```
-tenure          F      M
-district              
-1        38253  59979
-2        50144  57250
-3        27251  28253
-4        39796  49377
-<other plots removed for brevity>
-```
-
-Now, create a stacked bar plot with that data where the incomes for each tenure are stacked by plot.
-
-Rather than display it as a table, we can plot the above data by stacking the values of each tenure as follows:
-
-```python
-by_plot_tenure = surveys_df.groupby(['district','tenure'])
-plot_tenure_count = by_plot_tenure['income'].sum()
-spc = plot_tenure_count.unstack()
-s_plot = spc.plot(kind='bar',stacked=True,title="Total income by plot and tenure")
-s_plot.set_ylabel("income")
-s_plot.set_xlabel("Plot")
-```
-
-![Stacked Bar Plot](img/stackedBar.png)
+1. Create a basic two-bar chart of total number of owners versus total renters.
+2. Create a plot of average income by year.

@@ -4,223 +4,10 @@ root: .
 title: Data Types and Formats
 ---
 
-The format of individual columns and rows will impact analysis performed on a
-dataset read into python. For example, you can't perform mathematical
-calculations on a string (character formatted data). This might seem obvious,
-however sometimes numeric values are read into python as strings. In this
-situation, when you then try to perform calculations on the string-formatted
-numeric data, you get an error.
-
-In this lesson we will review ways to explore and better understand the
-structure and format of our data.
-
-## Learning Objectives
-
-* Learn about character and numeric data types.
-* Learn how to explore the structure of your data.
-* Understand NaN values and different ways to deal with them.
 
 
-# Types of Data
+# Missing Data and Querying
 
-How information is stored in a
-DataFrame or a python object affects what we can do with it and the outputs of
-calculations as well. There are two main types of data that we're explore in
-this lesson: numeric and character types.
-
-# Numeric Data Types
-
-Numeric data types include integers and floats. A **floating point** (known as a
-float) number has decimal points even if that decimal point value is 0. For
-example: 1.13, 2.0 1234.345. If we have a column that contains both integers and
-floating point numbers, Pandas will assign the entire column to the float data
-type so the decimal points are not lost.
-
-An **integer** will never have a decimal point. Thus 1.13 would be stored as 1.
-1234.345 is stored as 1234. You will often see the data type `Int64` in python
-which stands for 64 bit integer. The 64 simply refers to the memory allocated to
-store data in each cell which effectively relates to how many digits it can
-store in each "cell". Allocating space ahead of time allows computers to
-optimize storage and processing efficiency.
-
-## Character Data Types
-
-Strings, known as Objects in Pandas, are values that contain numbers and / or
-characters. For example, a string might be a word, a sentence, or several
-sentences. A Pandas object might also be a plot name like 'plot1'. A string can
-also contain or consist of numbers. For instance, '1234' could be stored as a
-string. As could '10.23'. However **strings that contain numbers can not be used
-for mathematical operations**!
-
-Pandas and base Python use slightly different names for data types. More on this
-is in the table below:
-
-| Pandas Type | Native Python Type | Description |
-|-------------|--------------------|-------------|
-| object | string | The most general dtype. Will be assigned to your column if column has mixed types (numbers and strings). |
-| int64  | int | Numeric characters. 64 refers to the memory allocated to hold this character. |
-| float64 | float | Numeric characters with decimals. If a column contains numbers and NaNs(see below), pandas will default to float64, in case your missing value has a decimal. |
-| datetime64, timedelta[ns] | N/A (but see the [datetime] module in Python's standard library) | Values meant to hold time data. Look into these for time series experiments. |
-
-[datetime]: http://doc.python.org/2/library/datetime.html
-
-
-## Checking the format of our data
-
-Now that we're armed with a basic understanding of numeric and character data
-types, let's explore the format of our survey data. We'll be working with the 
-same `surveys.csv` dataset that we've used in previous lessons.
-
-```python
-# note that pd.read_csv is used because we imported pandas as pd
-surveys_df = pd.read_csv("surveys.csv")
-```
-
-Remember that we can check the type of an object like this:
-
-```python
-type(surveys_df)
-```
-
-**OUTPUT:** `pandas.core.frame.DataFrame`
-
-Next, let's look at the structure of our surveys data. In pandas, we can check
-the type of one column in a DataFrame using the syntax
-`dataFrameName[column_name].dtype`:
-
-```python
-surveys_df['tenure'].dtype
-```
-
-**OUTPUT:** `dtype('O')`
-
-A type 'O' just stands for "object" which in Pandas' world is a string
-(characters).
-
-```python
-surveys_df['record_id'].dtype
-```
-
-**OUTPUT:** `dtype('int64')`
-
-The type `int64` tells us that python is storing each value within this column
-as a 64 bit integer. We can use the `dat.dtypes` command to view the data type
-for each column in a DataFrame (all at once).
-
-```python
-surveys_df.dtypes
-```
-
-which **returns**:
-
-```
-record_id            int64
-month                int64
-day                  int64
-year                 int64
-district              int64
-city          		object
-tenure                 object
-income             float64
-dtype: object
-```
-
-Note that most of the columns in our Survey data are of type `int64`. This means
-that they are 64 bit integers. But the income column is a floating point value
-which means it contains decimals. The `city` and `tenure` columns are objects which
-means they contain strings.
-
-
-## Working With Integers and Floats
-
-So we've learned that computers store numbers in one of two ways: as integers or
-as floating-point numbers (or floats). Integers are the numbers we usually count
-with. Floats have fractional parts (decimal places).  Let's next consider how
-the data type can impact mathematical operations on our data. Addition,
-subtraction, division and multiplication work on floats and integers as we'd expect.
-
-```python
-5+5
-10
-
-24-4
-20
-```
-
-Dividing integers works as expected too.
-```python
-9/3
-3
-```
-But if there is a remainder, you get unexpected results.
-
-```python
-5/9
-0
-
-```
-This is an abnormality (and an unfortunate feature) in Python 2.
-Python 3 fixed this problem, so the result would automatically be converted as a float.
-We don't use Python 3 yet because not all of our programs work with it.
-To avoid this result in Python 2, you can convert an integer to a float to guarantee the result is float.
-This is as easy as adding a trailing .0, or converting the type
-
-```python
-5/9.0
-0.5555555555555556
-
-5/float(9)
-0.5555555555555556
-
-```
-
-We can also convert a floating point number to an integer. Notice that Python by default rounds down when it
-converts from floating point to integer.
-
-```python
-# convert a to integer
-a = 7.33
-int(a)
-7
-
-a = 7.89
-int(a)
-7
-
-```
-
-# Working With Our Survey Data
-
-Getting back to our data, we can modify the format of values within our data, if
-we want. For instance, we could convert the `record_id` field to floating point
-values.
-
-```python
-# convert the record_id field from an integer to a float
-surveys_df['record_id'] = surveys_df['record_id'].astype('float64')
-surveys_df['record_id'].dtype
-```
-
-**OUTPUT:** `dtype('float64')`
-
-What happens if we try to convert income values to integers?
-
-```python
-surveys_df['income'].astype('int')
-```
-
-Notice that this throws a value error: `ValueError: Cannot convert NA to
-integer`. If we look at the `income` column in the surveys data we notice that
-there are NaN (**N**ot **a** **N**umber) values. *NaN* values are undefined
-values that cannot be represented mathematically. Pandas, for example, will read
-an empty cell in a CSV or Excel sheet as a NaN. NaNs have some desirable
-properties: if we were to average the `income` column without replacing our NaNs,
-Python would know to skip over those cells.
-
-```python
-surveys_df['income'].mean()
-42.672428212991356
-```
 
 ## Missing Data Values - NaN
 
@@ -288,12 +75,95 @@ Python gives us all of the tools that we need to account for these issues. We
 just need to be cautious about how the decisions that we make impact scientific
 results.
 
+# Querying Data
+
+Often we want a subset of our data using criteria. For example, we need to look at results for a specific range of years or for a given set of cities.
+
+To select data from year 2002
+```python
+surveys_df[surveys_df['year'] == 2002]
+```
+
+Which produces the following output:
+
+```python
+record_id  month  day  year  district city  tenure  hindfoot_length  income
+33320      33321      1   12  2002        1         DM    M     38      44 
+33321      33322      1   12  2002        1         DO    M     37      58
+33322      33323      1   12  2002        1         PB    M     28      45
+33323      33324      1   12  2002        1         AB  NaN    NaN     NaN
+33324      33325      1   12  2002        1         DO    M     35      29
+...
+35544      35545     12   31  2002       15         AH  NaN    NaN     NaN
+35545      35546     12   31  2002       15         AH  NaN    NaN     NaN
+35546      35547     12   31  2002       10         RM    F     15      14
+35547      35548     12   31  2002        7         DO    M     36      51
+35548      35549     12   31  2002        5        NaN  NaN    NaN     NaN
+
+[2229 rows x 9 columns]
+```
+
+Or we can select all rows that do not contain the year 2002.
+
+```python
+surveys_df[surveys_df.year != 2002]
+```
+
+We can define sets of criteria too:
+
+```python
+surveys_df[(surveys_df['year'] >= 1980) & (surveys_df['year'] <= 1985)]
+```
+
+# Python Syntax Cheat Sheet
+
+Use can use the syntax below when querying data from a DataFrame. Experiment
+with selecting various subsets of the "surveys" data.
+
+* Equals: `==`
+* Not equals: `!=`
+* Greater than, less than: `>` or `<`
+* Greater than or equal to `>=`
+* Less than or equal to `<=`
+
+
+## Challenge Activities
+
+1. Select a subset of rows in the `surveys_df` DataFrame that contain data from
+   the year 1999 and that contain income values less than or equal to 20000 How
+   many columns did you end up with? What did your neighbor get?
+2. You can use the `isin` command in python to query a DataFrame based upon a
+   list of values as follows:
+   `surveys_df[surveys_df['city'].isin([listGoesHere])]`. Use the `isin` function
+   to find all plots that contain particular city in
+   the surveys DataFrame. How many records contain these values?
+3. Experiment with other queries. Create a query that finds all rows with a income value > or equal to 0.
+4. The `~` symbol in Python can be used to return the OPPOSITE of the selection that you specify in python. 
+It is equivalent to **is not in**. Write a query that selects all rows that are NOT equal to 'R' or 'O' in the surveys
+data.
+
+
+## SQL-style queries
+Some of you may be more familiar or comfortable with SQL-style queries.
+You can make the same queries as above, but using the "query" command.
+
+For example, select all records from 2002:
+
+```python
+surveys_df.query('year == 2002')
+```
+
+Note that the column index selection is a bit different; there are no brackets anymore and everything must be in a string. We're now passing a SQL query *string* to a dataframe and executing that query. This can be helpful for more complicated queries. In some situations it's better to use this method, while in others the column selection is clearer.
+
+
+
+
+# SQL Challenges
+
+
+1. Create a new DataFrame that contains only observations that are of tenure rent or own and where income values are less than 20000. 
+
+
 
 ## Recap
 
-What we've learned:
-
-+ How to explore the data types of columns within a DataFrame
-+ How to change the data type
-+ What NaN values are, how they might be represented, and what this means for your work
-+ How to replace NaN values, if desired
