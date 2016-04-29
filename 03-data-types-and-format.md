@@ -1,4 +1,4 @@
-----
+---
 layout: lesson
 root: .
 title: Data Types and Formats
@@ -80,7 +80,8 @@ Answer:
 surveys_df[~surveys_df['tenure'].isin(['R','O'])]
 ```
 
-## Missing Data Values - NaN
+## Missing Data Values - NaNs
+
 
 Dealing with missing data values is always a challenge. It's sometimes hard to
 know why values are missing - was it because of a data entry error? Or data that
@@ -99,6 +100,25 @@ in the future when you (or someone else) explores your data.
 
 ### Where Are the NaN's?
 
+
+Dealing with missing data values is always a challenge. It's sometimes hard to
+know why values are missing - was it because of a data entry error? Or data that
+someone was unable to collect? Should the value be 0? We need to know how
+missing values are represented in the dataset in order to make good decisions.
+If we're lucky, we have some metadata that will tell us more about how null
+values were handled.
+
+For instance, like in household surveys, missing data values are
+often defined as -9999. Having a bunch of -9999 values in your data could really
+alter numeric calculations. Often in spreadsheets, cells are left empty where no
+data are available. Pandas will, by default, replace those missing values with
+NaN. However it is good practice to get in the habit of intentionally marking
+cells that have no data, with a no data value! That way there are no questions
+in the future when you (or someone else) explores your data.
+
+### Where Are the NaN's?
+
+>>>>>>> 644fa14f2c9efaa9e81600306bbcd670b53c52ab
 Let's explore the NaN values in our data a bit further. Using the tools we
 learned in lesson 02, we can figure out how many rows contain NaN values for
 income. We can also create a new subset from our data that only contains rows
