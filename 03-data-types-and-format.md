@@ -118,7 +118,6 @@ in the future when you (or someone else) explores your data.
 
 ### Where Are the NaN's?
 
->>>>>>> 644fa14f2c9efaa9e81600306bbcd670b53c52ab
 Let's explore the NaN values in our data a bit further. Using the tools we
 learned in lesson 02, we can figure out how many rows contain NaN values for
 income. We can also create a new subset from our data that only contains rows
