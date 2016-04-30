@@ -31,9 +31,8 @@ working with ecological data in Python.
 * [Starting With Data](./01-starting-with-data)
 * [Data Types and Format](./03-data-types-and-format) 
 * [Merging Data](./04-merging-data)
-* [Moving to Scripts](./09-moving-to-scripts)
 
-**Data** for this project can be downloaded from this repository at [http://psrc.github.io/itm-tutorial-python/data.zip](http://psrc.github.io/itm-tutorial-python/data.zip). 
+**Data** for this project can be downloaded from this repository at [http://psrc.github.io/itm-tutorial-python/python-class.zip](http://psrc.github.io/itm-tutorial-python/python-class.zip). 
 
 
 <p>
